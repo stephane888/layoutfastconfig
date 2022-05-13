@@ -1,0 +1,114 @@
+<?php
+use Drupal\Core\Form\FormStateInterface;
+use function PHPUnit\Framework\stringContains;
+use Drupal\Core\Render\Element;
+
+/**
+ *
+ * @file
+ * Primary module hooks for LayoutfastConfig module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+/**
+ * implment hook_ENTITY_TYPE_view_alter
+ */
+// function layoutfastconfig_entity_view_alter(array &$build,
+// Drupal\Core\Entity\EntityInterface $entity,
+// \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
+// //
+// 
+// }
+
+/**
+ * implment hook_ENTITY_TYPE_view_alter
+ */
+// function layoutfastconfig_entity_view(array &$build,
+// Drupal\Core\Entity\EntityInterface $entity,
+// \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
+// //
+// if ($entity->getEntityTypeId() != "block_content" &&
+// $entity->getEntityTypeId() != "node" && $entity->getEntityTypeId() !=
+// "menu_link_content") {
+
+// }
+// }
+// function layoutfastconfig_preprocess_layout_builder(&$vars, $hook) {
+
+// }
+
+/**
+ * Implement hook__layouts
+ */
+function layoutfastconfig_preprocess_layout(&$vars) {
+  if (!empty($vars['theme_hook_original']) && strpos($vars['theme_hook_original'], "formatage_models_") !== false) {
+    $route_name = \Drupal::routeMatch()->getRouteName();
+    if (strpos($route_name, 'layout_builder.') === 0) {
+      $elements = Element::children($vars['content']);
+      $vars['layout_quickedit'] = [
+        '#type' => 'dropbutton',
+        '#links' => [
+          [
+            'title' => 'Liste des regions (edition rapide)'
+          ]
+        ]
+      ];
+      foreach ($elements as $fieldname) {
+        if (isset($vars['content'][$fieldname]))
+          $vars['layout_quickedit']['#links'][] = [
+            'title' => $vars['content'][$fieldname]
+          ];
+      }
+    }
+  }
+}
+
+function layoutfastconfig_preprocess_layout_builder__add_section(&$vars) {
+  //
+}
+
+/**
+ * Implements hook_theme().
+ */
+function layoutfastconfig_theme() {
+  return [
+    'layoutfastconfig_links' => [
+      'render element' => 'element'
+    ]
+  ];
+}
+
+function layoutfastconfig_form_entity_view_display_layout_builder_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if (!empty($form['layout_builder'])) {
+    $form['layout_builder']['#type'] = 'layout_builder_layoutfastconfig';
+  }
+}
+
+
+// /**
+// * --
+// */
+// function layoutfastconfig_entity_view_display_prepare_form(\Drupal\Core\Entity\EntityInterface $entity, $operation, \Drupal\Core\Form\FormStateInterface $form_state) {
+// //
+
+// }
+/**
+ *
+ * @param array $form
+ * @param FormStateInterface $form_state
+ * @param int $form_id
+ */
+// function layoutfastconfig_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+//   if (strpos($form_id, "layout_builder_form")) {
+//     if ($form['#after_build']) {
+//       // $form['#after_build'][] = "layoutfastconfig_layout_builder";
+//     }
+
+//   }
+// }
+
+
+

@@ -1,0 +1,4 @@
+administer layoutfastconfig configuration:
+  title: 'Administer layoutfastconfig configuration'
+  description: 'Optional description.'
+  restrict access: true
